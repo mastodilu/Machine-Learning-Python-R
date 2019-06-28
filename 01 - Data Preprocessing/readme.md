@@ -215,3 +215,7 @@ Per rimpiazzare i valori vuoti con la media della singola colonna:
 dataset$Age[is.na(dataset$Age)] <- mean(dataset$Age, na.rm=TRUE)
 dataset$Salary[is.na(dataset$Salary)] <- mean(dataset$Salary, na.rm=TRUE)
 ```
+
+Il dataset diventa
+
+![dataset](img/005.png)
