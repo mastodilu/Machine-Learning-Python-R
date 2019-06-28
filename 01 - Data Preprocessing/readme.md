@@ -2,6 +2,12 @@
 
 Prima di cominciare, tutti i file usati sono disponibili [qua](https://www.superdatascience.com/pages/machine-learning).
 
+## Nota bene
+
+Per vedere la documentazione sul codice scritto:
+
+- in spyder: `Ctrl+i`
+
 ## 1. Ottieni il dataset
 
 Nel dataset ci sono due tipi di variabili, v. dipendenti e indipendenti.
@@ -79,9 +85,9 @@ y = dataset.iloc[:, 3].values # selezione tutte le righe dell'ultima colonna (in
 > Il comando `iloc[:,:-1]` vuol dire:
 > 
 > - a sinistra della virgola si specificano le righe
-> - prendi tutte le righe, dalla prima all'ultima
+>   - prendi tutte le righe, dalla prima all'ultima
 > - a destra della virgola si specificano le colonne
-> - parti dalla prima colonne e fermati prima dell'ultima
+>   - parti dalla prima colonne e fermati prima dell'ultima
 
 Digitando `X` nella console di spyder viene stampato:
 
@@ -141,3 +147,71 @@ La variabile dataset è visibile anche nella tab environment:
 ![variable explorer](img/003.png)
 
 **NB: l'indice in R comincia da 1**
+
+## 3 Missing data
+
+Bisogna gestire anche le situazioni in cui ci sono dataset incompleti.
+
+Le celle vuote vengono riempite con il **mean value** (media aritmetica) dei dati contenuti nella colonna.
+
+### In python
+
+```python
+from sklearn.impute import SimpleImputer
+simple_imputer = SimpleImputer(missing_values=np.nan, strategy="mean")
+simple_imputer.fit(X[:, 1:3])
+X[:, 1:3] = simple_imputer.transform(X[:, 1:3])
+```
+
+`sklearn` è una libreria che permette di creare dei modelli.
+La classe `SimpleImputer` di `sklearn.impute` permette di attribuire dei valori ai campi vuoti.
+
+Eseguendo
+
+```python
+simple_imputer = SimpleImputer(missing_values=np.nan, strategy="mean")
+```
+
+Il parametro `strategy="mean"` indica di ricercare il parametro mean **rispetto alla colonna**.
+
+il `dataset` viene arricchito con campi `nan`.
+
+![dataset](img/004.png)
+
+Eseguendo
+
+```python
+simple_imputer.fit(X[:, 1:3])
+```
+
+si esegue l'inserimento dei mean value solo nelle colonne in cui ci sono dati mancanti, cioè 2a e 3a, ma guardando tutte le righe: in pratica il mean value è guardato sull'intera colonna e applicato alle sole celle vuote.
+
+Eseguendo
+
+```python
+X[:, 1:3] = simple_imputer.transform(X[:, 1:3])
+```
+
+si sovrascrivono le colonne di X con i nuovi dati.
+
+```cmd
+array([['France', 44.0, 72000.0],
+    ['Spain', 27.0, 48000.0],
+    ['Germany', 30.0, 54000.0],
+    ['Spain', 38.0, 61000.0],
+    ['Germany', 40.0, 63777.77777777778],
+    ['France', 35.0, 58000.0],
+    ['Spain', 38.77777777777778, 52000.0],
+    ['France', 48.0, 79000.0],
+    ['Germany', 50.0, 83000.0],
+    ['France', 37.0, 67000.0]], dtype=object)
+```
+
+### In R
+
+Per rimpiazzare i valori vuoti con la media della singola colonna:
+
+```R
+dataset$Age[is.na(dataset$Age)] <- mean(dataset$Age, na.rm=TRUE)
+dataset$Salary[is.na(dataset$Salary)] <- mean(dataset$Salary, na.rm=TRUE)
+```
