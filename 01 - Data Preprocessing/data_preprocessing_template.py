@@ -7,14 +7,21 @@ import pandas as pd # per importare e maneggiare dataset
 
 # Importing the dataset
 dataset = pd.read_csv('Data.csv')
-X = dataset.iloc[:, :-1].values
-y = dataset.iloc[:, 3].values
+
+# Categorical data
+country_dummies = pd.get_dummies(dataset.Country, prefix="Country", drop_first=True)
+dataset = pd.concat([country_dummies, dataset], axis = 1)
+dataset = pd.DataFrame.drop(dataset, columns=["Country"])
+
+# Variabili dipendenti e indipendenti
+X = dataset.iloc[:, :-1].to_numpy()
+y = dataset.iloc[:, -1].to_numpy()
 
 # Taking care of missing data
 from sklearn.impute import SimpleImputer
 simple_imputer = SimpleImputer(missing_values=np.nan, strategy="mean")
-simple_imputer.fit(X[:, 1:3]) # simple_imputer viene fatto lavorare solo nelle colonne dove ci sono dati mancanti
-X[:, 1:3] = simple_imputer.transform(x[:, 1:3])
+simple_imputer.fit(X[:, 2:4]) # simple_imputer viene fatto lavorare solo nelle colonne dove ci sono dati mancanti
+X[:, 2:4] = simple_imputer.transform(X[:, 2:4])
 
 # Splitting the dataset into the Training set and Test set
 from sklearn.cross_validation import train_test_split

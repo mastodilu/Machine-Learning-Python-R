@@ -71,15 +71,57 @@ Il file importato, salvato nella variabile `dataset`, diventa visibile nel **var
 
 ![variable explorer](img/001.png)
 
+## 4. Encode categorical data
+
+Categorical data sono variabili che contengono categorie, tipo *Country* e *Purchased*.
+
+- *Country*: contiene le categorie *France*, *Spain*, *Germany*.
+- *Purchased*: contiene le categorie *Yes* e *No*.
+
+Per risolvere i calcoli matematici è necessario che le categorie (testuali) vengano espresse tramite numeri: bisogna **codificare le categorie**.
+
+```Python
+country_dummies = pd.get_dummies(dataset.Country, prefix="Country", drop_first=True)
+dataset = pd.concat([country_dummies, dataset], axis = 1)
+dataset = pd.DataFrame.drop(dataset, columns=["Country"])
+```
+
+`get_dummies` permette di **codificare delle classi** assegnando dei numeri da `0` a `n_classi-1`.
+
+Con il codice
+
+```Python
+country_dummies = pd.get_dummies(dataset.Country, prefix="Country", drop_first=True)
+```
+
+Viene creata la tabella fatta così:
+
+![dummy data](img/007.png)
+
+- `prefix="Country"` aggiungono il prefisso `Country_` al nome della colonna.
+- `drop_first=True` elimina una colonna. Per codificare con dummy data N variabili vengono generate N colonne, ma ne bastano N-1.
+
+Con il codice
+
+```Python
+dataset = pd.concat([country_dummies, dataset], axis = 1)
+dataset = pd.DataFrame.drop(dataset, columns=["Country"])
+```
+
+le nuove colonne di dummy data rimpiazzano quella codificata (`Country`).
+
+![dummy data](img/008.png)
+
+## 5. Variabili dipendenti e indipendenti
+
 Ora bisogna creare:
 
 - la **Matrice di Features** usando le **variabili indipendenti** *Country, Age, Salary*.
 - il vettore di variabili dipendenti usando la colonna *Purchased*.
 
-```python
-# matrice di features
-X = dataset.iloc[:, :-1].values # seleziona tutte le righe delle 3 colonne desiderate (tutte tranne l'ultima)
-y = dataset.iloc[:, 3].values # selezione tutte le righe dell'ultima colonna (indice 3)
+```Python
+X = dataset.iloc[:, :-1].to_numpy()
+y = dataset.iloc[:, -1].to_numpy()
 ```
 
 > Il comando `iloc[:,:-1]` vuol dire:
@@ -92,75 +134,38 @@ y = dataset.iloc[:, 3].values # selezione tutte le righe dell'ultima colonna (in
 Digitando `X` nella console di spyder viene stampato:
 
 ```cmd
-Out[6]:
-array([['France', 44.0, 72000.0],
-    ['Spain', 27.0, 48000.0],
-    ['Germany', 30.0, 54000.0],
-    ['Spain', 38.0, 61000.0],
-    ['Germany', 40.0, nan],
-    ['France', 35.0, 58000.0],
-    ['Spain', nan, 52000.0],
-    ['France', 48.0, 79000.0],
-    ['Germany', 50.0, 83000.0],
-    ['France', 37.0, 67000.0]], dtype=object)
+array([[0.0e+00, 0.0e+00, 4.4e+01, 7.2e+04],
+       [0.0e+00, 1.0e+00, 2.7e+01, 4.8e+04],
+       [1.0e+00, 0.0e+00, 3.0e+01, 5.4e+04],
+       [0.0e+00, 1.0e+00, 3.8e+01, 6.1e+04],
+       [1.0e+00, 0.0e+00, 4.0e+01,     nan],
+       [0.0e+00, 0.0e+00, 3.5e+01, 5.8e+04],
+       [0.0e+00, 1.0e+00,     nan, 5.2e+04],
+       [0.0e+00, 0.0e+00, 4.8e+01, 7.9e+04],
+       [1.0e+00, 0.0e+00, 5.0e+01, 8.3e+04],
+       [0.0e+00, 0.0e+00, 3.7e+01, 6.7e+04]])
 ```
 
 Digitando `y` nella console di spyder viene stampato:
 
 ```cmd
-Out[10]: 
 array(['No', 'Yes', 'No', 'No', 'Yes', 'Yes', 'No', 'Yes', 'No', 'Yes'],
     dtype=object)
 ```
 
-### In RStudio
-
-Setta la cartella del file da elaborare come working directory usando il file explorer:
-
-![variable explorer](img/002.png)
-
-Importa il dataset (non è necessario creare la matrice di variabili indipendenti e l'array di var dipendenti.)
-
-```R
-dataset = read.csv('Data.csv')
-```
-
-Digitando `dataset` nel terminale di RStudio viene stampato:
-
-```
-> dataset
-   Country Age Salary Purchased
-1   France  44  72000        No
-2    Spain  27  48000       Yes
-3  Germany  30  54000        No
-4    Spain  38  61000        No
-5  Germany  40     NA       Yes
-6   France  35  58000       Yes
-7    Spain  NA  52000        No
-8   France  48  79000       Yes
-9  Germany  50  83000        No
-10  France  37  67000       Yes
-```
-
-La variabile dataset è visibile anche nella tab environment:
-
-![variable explorer](img/003.png)
-
-**NB: l'indice in R comincia da 1**
-
-## 3 Missing data
+## 6. Missing data
 
 Bisogna gestire anche le situazioni in cui ci sono dataset incompleti.
 
-Le celle vuote vengono riempite con il **mean value** (media aritmetica) dei dati contenuti nella colonna.
+Le celle vuote vengono riempite con il **mean value** (**media aritmetica**) dei dati contenuti nella colonna.
 
 ### In python
 
 ```python
 from sklearn.impute import SimpleImputer
 simple_imputer = SimpleImputer(missing_values=np.nan, strategy="mean")
-simple_imputer.fit(X[:, 1:3])
-X[:, 1:3] = simple_imputer.transform(X[:, 1:3])
+simple_imputer.fit(X[:, 2:4]) # simple_imputer viene fatto lavorare solo nelle colonne dove ci sono dati mancanti
+X[:, 2:4] = simple_imputer.transform(X[:, 2:4])
 ```
 
 `sklearn` è una libreria che permette di creare dei modelli.
@@ -184,38 +189,26 @@ Eseguendo
 simple_imputer.fit(X[:, 1:3])
 ```
 
-si esegue l'inserimento dei mean value solo nelle colonne in cui ci sono dati mancanti, cioè 2a e 3a, ma guardando tutte le righe: in pratica il mean value è guardato sull'intera colonna e applicato alle sole celle vuote.
+si esegue l'inserimento dei mean value solo nelle colonne in cui ci sono dati mancanti, cioè 3a e 4a, ma guardando tutte le righe: in pratica il mean value è guardato sull'intera colonna e applicato alle sole celle vuote.
 
 Eseguendo
 
 ```python
-X[:, 1:3] = simple_imputer.transform(X[:, 1:3])
+X[:, 2:4] = simple_imputer.transform(X[:, 2:4])
 ```
 
 si sovrascrivono le colonne di X con i nuovi dati.
 
 ```cmd
-array([['France', 44.0, 72000.0],
-    ['Spain', 27.0, 48000.0],
-    ['Germany', 30.0, 54000.0],
-    ['Spain', 38.0, 61000.0],
-    ['Germany', 40.0, 63777.77777777778],
-    ['France', 35.0, 58000.0],
-    ['Spain', 38.77777777777778, 52000.0],
-    ['France', 48.0, 79000.0],
-    ['Germany', 50.0, 83000.0],
-    ['France', 37.0, 67000.0]], dtype=object)
+array([[0.00000000e+00, 0.00000000e+00, 4.40000000e+01, 7.20000000e+04],
+       [0.00000000e+00, 1.00000000e+00, 2.70000000e+01, 4.80000000e+04],
+       [1.00000000e+00, 0.00000000e+00, 3.00000000e+01, 5.40000000e+04],
+       [0.00000000e+00, 1.00000000e+00, 3.80000000e+01, 6.10000000e+04],
+       [1.00000000e+00, 0.00000000e+00, 4.00000000e+01, 6.37777778e+04],
+       [0.00000000e+00, 0.00000000e+00, 3.50000000e+01, 5.80000000e+04],
+       [0.00000000e+00, 1.00000000e+00, 3.87777778e+01, 5.20000000e+04],
+       [0.00000000e+00, 0.00000000e+00, 4.80000000e+01, 7.90000000e+04],
+       [1.00000000e+00, 0.00000000e+00, 5.00000000e+01, 8.30000000e+04],
+       [0.00000000e+00, 0.00000000e+00, 3.70000000e+01, 6.70000000e+04]])
 ```
 
-### In R
-
-Per rimpiazzare i valori vuoti con la media della singola colonna:
-
-```R
-dataset$Age[is.na(dataset$Age)] <- mean(dataset$Age, na.rm=TRUE)
-dataset$Salary[is.na(dataset$Salary)] <- mean(dataset$Salary, na.rm=TRUE)
-```
-
-Il dataset diventa
-
-![dataset](img/005.png)
