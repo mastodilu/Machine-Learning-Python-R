@@ -10,8 +10,11 @@ dataset = pd.read_csv('Data.csv')
 
 # Categorical data
 country_dummies = pd.get_dummies(dataset.Country, prefix="Country", drop_first=True)
+purchased_dummies = pd.get_dummies(dataset.Purchased, prefix="Purchased", drop_first=True)
 dataset = pd.concat([country_dummies, dataset], axis = 1)
 dataset = pd.DataFrame.drop(dataset, columns=["Country"])
+dataset = pd.concat([dataset, purchased_dummies], axis = 1)
+dataset = pd.DataFrame.drop(dataset, columns=["Purchased"])
 
 # Variabili dipendenti e indipendenti
 X = dataset.iloc[:, :-1].to_numpy()
@@ -24,7 +27,7 @@ simple_imputer.fit(X[:, 2:4]) # simple_imputer viene fatto lavorare solo nelle c
 X[:, 2:4] = simple_imputer.transform(X[:, 2:4])
 
 # Splitting the dataset into the Training set and Test set
-from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
 
 # Feature Scaling

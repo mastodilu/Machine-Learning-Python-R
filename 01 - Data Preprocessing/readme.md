@@ -112,6 +112,10 @@ le nuove colonne di dummy data rimpiazzano quella codificata (`Country`).
 
 ![dummy data](img/008.png)
 
+Ripetendo la procedura precedente anche per la colonna `Purchased` si ottiene la seguente tabella:
+
+![dummy data](img/009.png)
+
 ## 5. Variabili dipendenti e indipendenti
 
 Ora bisogna creare:
@@ -212,3 +216,33 @@ array([[0.00000000e+00, 0.00000000e+00, 4.40000000e+01, 7.20000000e+04],
        [0.00000000e+00, 0.00000000e+00, 3.70000000e+01, 6.70000000e+04]])
 ```
 
+7. Split in training set e test set
+
+Per splittare il dataset in:
+
+- training set
+- test set
+
+si usa il seguente codice
+
+```python
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
+```
+
+e creando le variabili:
+
+- X_test, y_test
+- X_train, y_train
+
+![training set e test set](img/010.png)
+
+La funzione `train_test_split` ha preso come parametri:
+
+- `X, y`: i dati da splittare
+- `test_size = 0.2`: per indicare che il training set usa l'80% dei dati e il test set solo il 20%
+- `random_state = 0`: per passare un valore intero che inizializza il generatore di numeri casuali (anche 42 andrebbe bene, non cambia niente)
+
+```Python
+train_test_split(X, y, test_size = 0.2, random_state = 0)
+```
