@@ -299,15 +299,21 @@ Nel caso del **training set** viene usata la funzione `stdscaler_X.fit_transform
 Per il **test set**  viene usata la funzione `stdscaler_X.transform(X_test)`.
 
 > **NB**
+> 
 > `fit` è una funzione che applica una equazione ad un set di dati ed ottiene dei risultati
+> 
 > `transform` applica il fit a determinati dati per cambiarli
+> 
 > `fit_transform` applica l'equazione ai dati e poi trasforma il fit
 
 > **Bisogna fare rescaling anche alle dummy variables?**
+> 
 > Dipende dal contesto. Nel nostro caso perderemmo le informazioni in merito alle Countries.
 
 > **Bisogna fare rescaling delle y?**
+> 
 > Nel nostro caso **NO** perchè le y rappresentano categorie (si, no) e quello visto è un problema di classificazione.
+> 
 > In altri problemi, tipo la regressione, si dovrà fare.
 
 Dopo aver effettuato il feature scaling il calcolo del modello risulterà enormemente più veloce.
