@@ -216,7 +216,7 @@ array([[0.00000000e+00, 0.00000000e+00, 4.40000000e+01, 7.20000000e+04],
        [0.00000000e+00, 0.00000000e+00, 3.70000000e+01, 6.70000000e+04]])
 ```
 
-7. Split in training set e test set
+## 7. Split in training set e test set
 
 Per splittare il dataset in:
 
@@ -246,3 +246,68 @@ La funzione `train_test_split` ha preso come parametri:
 ```Python
 train_test_split(X, y, test_size = 0.2, random_state = 0)
 ```
+
+## 8. Feature scaling
+
+Il feature scaling serve a normalizzare il range delle variabili indipendenti.
+Viene eseguito perchè molti modelli si basano sulla distanza Euclidea tra due punti:
+
+![distanza euclidea tra due punti](img/011.png)
+
+e questa può causare problemi al modello.
+
+Per esempio, prendendo le colonne `Age`, `Salary` come `X` e `y` della tabella attuale:
+
+![esempio problema distanza euclidea](img/012.png)
+
+si avrebbe che una variabile sovrasta l'altra perchè il suo quadrato sarebbe troppo più grande.
+
+### Tecniche di scaling
+
+#### Normalizzazione
+
+![tecniche di rescaling](img/015.svg)
+
+trasforma i valori in un **range** compreso tra **[0, +1] o [-1, +1]**.
+I dati mancanti vengono stimati su range non troppo dannosi rispetto agli altri dati.
+
+#### Standardizzazione
+
+![tecniche di rescaling](img/014.svg)
+
+è un procedimento che riconduce una variabile aleatoria distribuita secondo una media $μ$ e varianza $σ^2$, ad una variabile aleatoria con distribuzione "standard", ossia di **media zero** e **varianza** pari a **1**.
+E' una trasformazione lineare.
+
+### Feature scaling
+
+Questo codice effettua lo scaling dei dati.
+
+```Python
+from sklearn.preprocessing import StandardScaler
+stdscaler_X = StandardScaler()
+X_train = stdscaler_X.fit_transform(X_train)
+X_test = stdscaler_X.transform(X_test)
+```
+
+Si ottiene
+
+![X test e X training](img/016.png)
+
+Viene usata la classe `StandardScaler` che effettua la trasformazione in **variabili standard**.
+
+Nel caso del **training set** viene usata la funzione `stdscaler_X.fit_transform(X_train)` che *fitta* e poi *trasforma* i dati del training set.
+Per il **test set**  viene usata la funzione `stdscaler_X.transform(X_test)`.
+
+> **NB**
+> `fit` è una funzione che applica una equazione ad un set di dati ed ottiene dei risultati
+> `transform` applica il fit a determinati dati per cambiarli
+> `fit_transform` applica l'equazione ai dati e poi trasforma il fit
+
+> **Bisogna fare rescaling anche alle dummy variables?**
+> Dipende dal contesto. Nel nostro caso perderemmo le informazioni in merito alle Countries.
+
+> **Bisogna fare rescaling delle y?**
+> Nel nostro caso **NO** perchè le y rappresentano categorie (si, no) e quello visto è un problema di classificazione.
+> In altri problemi, tipo la regressione, si dovrà fare.
+
+Dopo aver effettuato il feature scaling il calcolo del modello risulterà enormemente più veloce.

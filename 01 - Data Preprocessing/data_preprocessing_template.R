@@ -27,5 +27,8 @@ training_set = subset(dataset, split == TRUE)     # il training set si compone d
 test_set = subset(dataset, split == FALSE)        # il test set si compone dei valori agli indici false dell'array 'split'
 
 # Feature Scaling
-# training_set = scale(training_set)
-# test_set = scale(test_set)
+training_set[, 2:3] = scale(training_set[, 2:3]) # applicachiamo il rescaling solo dove è necessario
+test_set[, 2:3] = scale(test_set[, 2:3])
+# se si verifica questo errore:
+#   Error in colMeans(x, na.rm = TRUE) : 'x' must be numeric
+# è perchè abbiamo inserito dummy value in colonne che contenevano del testo, e questi numeri sono rimasti testo.
