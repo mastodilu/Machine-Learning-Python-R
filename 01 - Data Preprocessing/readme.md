@@ -280,7 +280,9 @@ E' una trasformazione lineare.
 
 ### Feature scaling
 
-Questo codice effettua lo scaling dei dati.
+Questo codice effettua lo scaling dei dati, cioè una sorta di trasformazione che ne cambia il range massimo e minimo e riadatta ogni valore di conseguenza.
+
+> In alcune librerie il feature scaling è da fare a mano (come qua di seguito), ma in molte altre viene fatto automaticamente dalla libreria e non va fatto a mano.
 
 ```Python
 from sklearn.preprocessing import StandardScaler
