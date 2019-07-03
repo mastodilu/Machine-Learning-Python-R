@@ -24,11 +24,11 @@ regressor.fit(X_train, y_train) # si specifica tutto il training set
 # calcolato la funzione y = a+bx per stimare ogni possibile salario.
 
 # Predicting the Test set results
-y_pred = regressor.predict(X_test)
+y_predictions = regressor.predict(X_test)
 
 # Visualising the Training set results
-plt.scatter(X_train, y_train, color = 'red')
-plt.plot(X_train, regressor.predict(X_train), color = 'blue')
+plt.scatter(X_train, y_train, color = 'red')                  # traccia tutti i punti: coordinata X; coordinata Y; colore
+plt.plot(X_train, regressor.predict(X_train), color = 'blue') # traccia la retta: coordinata X; coordinata Y; colore
 plt.title('Salary vs Experience (Training set)')
 plt.xlabel('Years of Experience')
 plt.ylabel('Salary')

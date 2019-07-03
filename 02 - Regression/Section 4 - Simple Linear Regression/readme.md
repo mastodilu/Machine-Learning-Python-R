@@ -101,3 +101,53 @@ Si ottiene l'array di previsioni `y_predictions`.
 `y_test` e `y_predictions` possono essere confrontati per capire i valori reali rispetto alla stima del modello.
 
 ![regressione lineare](img/005.png)
+
+### 6. Plot dei dati
+
+Per disegnare grafici si usa la libreria `matplotlib.pyplot`.
+
+Si vuole vedere come sono i dati di **training** rispetto alla retta del modello.
+
+```Python
+import matplotlib.pyplot as plt
+plt.scatter(X_train, y_train, color = 'red') # disegna i punti
+plt.plot(X_train, regressor.predict(X_train), color = 'blue') # traccia la retta
+plt.title('Salary vs Experience (Training set)')
+plt.xlabel('Years of Experience')
+plt.ylabel('Salary')
+plt.show()
+```
+
+> `scatter` disegna i punti. Vuole i parametri:
+> 
+> - coordinata X del punto
+> - coordinata Y del punto
+> - colore
+> 
+> `plot` traccia la retta. A differenza di scatter, questi punti vengono mostrati come una retta perchè ogni singolo punto è calcolato dal modello e collegato da un segmento al successivo punto. 
+
+![regressione lineare](img/006.png)
+
+Per disegnare il grafico del **test set** si mantiene la stessa retta del grafico precedente e si cambiano i punti.
+
+```Python
+plt.scatter(X_test, y_test, color = 'red')
+plt.plot(X_train, regressor.predict(X_train), color = 'blue')
+plt.title('Salary vs Experience (Test set)')
+plt.xlabel('Years of Experience')
+plt.ylabel('Salary')
+plt.show()
+```
+
+![regressione lineare](img/007.png)
+
+La retta viene plottata con il comando `plt.plot(X_train, regressor.predict(X_train), color = 'blue')` perchè queste due istruzioni
+
+```Python
+plt.plot(X_train, regressor.predict(X_train), color = 'blue')
+plt.plot(X_test, regressor.predict(X_test), color = 'blue')
+```
+
+danno risultati identici: la retta generata è la stessa anche se i punti sono diversi proprio perchè è un modello matematico basato su una sua equazione.
+
+In pratica, la nuova retta viene calcolata usando punti diversi ma con la stessa equazione di regressione lineare, quindi giaciono sulla stessa retta.
