@@ -1,5 +1,24 @@
 # Data preprocessing
 
+- [Data preprocessing](#Data-preprocessing)
+  - [Nota bene](#Nota-bene)
+  - [1. Ottieni il dataset](#1-Ottieni-il-dataset)
+  - [2. Importa le librerie](#2-Importa-le-librerie)
+    - [In spyder](#In-spyder)
+    - [In RStudio](#In-RStudio)
+  - [3. Import dei dataset](#3-Import-dei-dataset)
+    - [In spyder](#In-spyder-1)
+  - [4. Encode categorical data](#4-Encode-categorical-data)
+  - [5. Variabili dipendenti e indipendenti](#5-Variabili-dipendenti-e-indipendenti)
+  - [6. Missing data](#6-Missing-data)
+    - [In python](#In-python)
+  - [7. Split in training set e test set](#7-Split-in-training-set-e-test-set)
+  - [8. Feature scaling](#8-Feature-scaling)
+    - [Tecniche di scaling](#Tecniche-di-scaling)
+      - [Normalizzazione](#Normalizzazione)
+      - [Standardizzazione](#Standardizzazione)
+    - [Feature scaling](#Feature-scaling)
+
 Prima di cominciare, tutti i file usati sono disponibili [qua](https://www.superdatascience.com/pages/machine-learning).
 
 ## Nota bene
