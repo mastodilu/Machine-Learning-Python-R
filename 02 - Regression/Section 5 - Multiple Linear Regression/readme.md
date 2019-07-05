@@ -7,6 +7,10 @@
   - [3. Forward selection](#3-Forward-selection)
     - [4. Bidirectional elimination](#4-Bidirectional-elimination)
     - [5. All possible models](#5-All-possible-models)
+  - [---](#)
+  - [Backward elimination in Python](#Backward-elimination-in-Python)
+    - [Codice](#Codice)
+    - [Spiegazione](#Spiegazione)
 
 # Multiple linear regression
 
@@ -81,3 +85,150 @@ Usa tutte le variabili, perchè **sai già che tutte sono importanti per la stim
 2. costruisci tutti i possibili modelli di regressione: $2^{N-1}$ combinazioni totali
 3. seleziona quella che riflette meglio il criterio scelto al punto 1.
 4. hai finito.
+
+---
+---
+
+## Backward elimination in Python
+
+Dopo aver:
+
+- importato il dataset
+- sistemato le dummy variables
+- splittato il dataset in X e y
+- splittato in training set e test set
+- creato un modello di regressione lineare
+- aggiunto l'array di $b_0$
+
+si può procedere con backward elimination.
+
+### Codice
+
+```Python
+import statsmodels.formula.api as sm
+X = np.append(arr = np.ones((50, 1)).astype(int), values = X, axis = 1)
+X_opt = X[:, [0,1,2,3,4,5]]
+regresson_OLS = sm.OLS(endog = y, exog = X_opt).fit()
+regressor_OLS.summary()
+
+# backward elimination
+
+# rimuovo X2
+X_opt = X[:, [0,1,3,4,5]]
+regressor_OLS = sm.OLS(endog = y, exog = X_opt).fit()
+regressor_OLS.summary()
+
+# rimuovo X1
+X_opt = X[:, [0,3,4,5]]
+regressor_OLS = sm.OLS(endog = y, exog = X_opt).fit()
+regressor_OLS.summary()
+
+# rimuovo X4
+X_opt = X[:, [0,3,5]]
+regressor_OLS = sm.OLS(endog = y, exog = X_opt).fit()
+regressor_OLS.summary()
+
+# rimuovo X5
+X_opt = X[:, [0,3]]
+regressor_OLS = sm.OLS(endog = y, exog = X_opt).fit()
+regressor_OLS.summary()
+```
+
+### Spiegazione
+
+Nell'esempio delle 50 startup non c'è una colonna in grado di rappresentare la costante $b_0$ dell'equazione della regressione, quindi dobbiamo gestirlo a mano se la libreria non lo fa in automatico.
+
+Nella libreria:
+
+```Python
+import statsmodels.formula.api as sm
+```
+
+non viene gestito in automatico e dobbiamo pensarci noi.
+
+Aggiungiamo alla matrice X una colonna di soli `1`:
+
+```Python
+X = np.append(arr = np.ones((50, 1)).astype(int), values = X, axis = 1)
+```
+
+Crea una matrice di features ottimale (inizialmente uguale a `X`) che viene sfoltita poco per volta:
+
+```Python
+X_opt = X[:, [0,1,2,3,4,5]]
+# oppure X_opt = X[:, :]
+# oppure X_opt = X
+```
+
+Seleziona un livello di significatività (ad esempio del 5%: 0.05).
+
+Esegui il fit del modello con tutte le X:
+
+```Python
+regresson_OLS = sm.OLS(endog = y, exog = X_opt).fit()
+```
+
+Considera le *Xi* con i *P-value* maggiori. Se *P>SL* rimuovilo *Xi*, altrimenti hai finito.
+
+Questo codice fornisce in output un sacco di informazioni utili sulle variabili usate:
+
+```Python
+regressor_OLS.summary()
+```
+
+```cmd
+<class 'statsmodels.iolib.summary.Summary'>
+"""
+                            OLS Regression Results
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.951
+Model:                            OLS   Adj. R-squared:                  0.945
+Method:                 Least Squares   F-statistic:                     169.9
+Date:                Fri, 05 Jul 2019   Prob (F-statistic):           1.34e-27
+Time:                        12:45:42   Log-Likelihood:                -525.38
+No. Observations:                  50   AIC:                             1063.
+Df Residuals:                      44   BIC:                             1074.
+Df Model:                           5
+Covariance Type:            nonrobust
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const       5.013e+04   6884.820      7.281      0.000    3.62e+04     6.4e+04
+x1           198.7888   3371.007      0.059      0.953   -6595.030    6992.607
+x2           -41.8870   3256.039     -0.013      0.990   -6604.003    6520.229
+x3             0.8060      0.046     17.369      0.000       0.712       0.900
+x4            -0.0270      0.052     -0.517      0.608      -0.132       0.078
+x5             0.0270      0.017      1.574      0.123      -0.008       0.062
+==============================================================================
+Omnibus:                       14.782   Durbin-Watson:                   1.283
+Prob(Omnibus):                  0.001   Jarque-Bera (JB):               21.266
+Skew:                          -0.948   Prob(JB):                     2.41e-05
+Kurtosis:                       5.572   Cond. No.                     1.45e+06
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 1.45e+06. This might indicate that there are
+strong multicollinearity or other numerical problems.
+"""
+```
+
+Alla colonna `P>|t|` abbiamo i *P-value*.
+
+Guardando la tabella capiamo di rimuovere `X2` (colonna 3) che ha *P-value* di `0.990`.
+Per rimuoverla basta duplicare gli step precedenti escludendo la colonna di `X2`:
+
+```Python
+# rimuovo X2
+X_opt = X[:, [0,1,3,4,5]]
+regressor_OLS = sm.OLS(endog = y, exog = X_opt).fit()
+regressor_OLS.summary()
+```
+
+Continuo a rimuovere una colonna alla volta fino a ottenere
+
+```Python
+X_opt = X[:, [0,3]]
+```
+
+Ora non ci sono variabili con un P-value > 0.05, quindi il modello è pronto.
