@@ -21,3 +21,5 @@ $$Adj R^2 = 1-(1-R^2)\frac{n-1}{n-p-1}$$
 - $n$ dimensione dell'esempio
 
 Aumentando il numero di variabili $R^2$ aumenta sempre, anche con variabili completamente a caso.
+
+Adjusted R Squared ha un fattore di penalizzazione che fa ridurre il valore di $Adj R^2$ aggiungendo delle variabili.
