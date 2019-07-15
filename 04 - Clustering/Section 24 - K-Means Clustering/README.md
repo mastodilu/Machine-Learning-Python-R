@@ -2,6 +2,8 @@
 
 K-means è un algoritmo che permette di suddividere i dati in gruppi o categorie.
 
+E' utile quando si vuole suddividere una popolazione in gruppi senza sapere a priori quali o quante sono le possibili categorie.
+
 ![esempio k means in 2 variabili](img/001.png)
 
 #### step 1
