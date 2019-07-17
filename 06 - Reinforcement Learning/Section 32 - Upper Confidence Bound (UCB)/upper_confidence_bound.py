@@ -48,3 +48,8 @@ plt.title('Histogram of ads selections')
 plt.xlabel('Ads')
 plt.ylabel('Number of times each ad was selected')
 plt.show()
+
+"""
+dal grafico risulta che lo spot di indice 4 è quello più cliccato dagli utenti
+e quindi quello da scegliere per vendere più suv
+"""
