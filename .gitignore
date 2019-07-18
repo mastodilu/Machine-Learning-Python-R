@@ -1,3 +1,7 @@
 *.zip
 *.RData
 *.Rhistory
+cat*.png
+cat*.jpg
+dog*.png
+dog*.jpg
