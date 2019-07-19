@@ -4,7 +4,7 @@
   - [Come costruire un modello](#Come-costruire-un-modello)
     - [1. All in](#1-All-in)
     - [2. Backward elimination](#2-Backward-elimination)
-  - [3. Forward selection](#3-Forward-selection)
+    - [3. Forward selection](#3-Forward-selection)
     - [4. Bidirectional elimination](#4-Bidirectional-elimination)
     - [5. All possible models](#5-All-possible-models)
   - [---](#)
@@ -59,7 +59,7 @@ Usa tutte le variabili, perchè **sai già che tutte sono importanti per la stim
 5. fai il fit del modello senza usare questa variabile (*in pratica rifai il modello senza quella variabile*)
 6. ritorna al punto **3.**
 
-## 3. Forward selection
+### 3. Forward selection
 
 1. seleziona un livello di significatività ($SL = 0.05$)
 2. fai il fit di ogni possibile regressione lineare semplice $y \sim X_n$ e seleziona quella con $SL$  minore

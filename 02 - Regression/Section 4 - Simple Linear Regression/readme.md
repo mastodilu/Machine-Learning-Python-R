@@ -1,3 +1,14 @@
+- [Regressione Lineare Semplice](#Regressione-Lineare-Semplice)
+  - [Come trovare la retta del trand](#Come-trovare-la-retta-del-trand)
+  - [Regressione lineare semplice in python](#Regressione-lineare-semplice-in-python)
+    - [1. Importa le librerie](#1-Importa-le-librerie)
+    - [2. Importa il dataset](#2-Importa-il-dataset)
+    - [3. Splitta il dataset in training set e test set](#3-Splitta-il-dataset-in-training-set-e-test-set)
+    - [4. NO feature scaling](#4-NO-feature-scaling)
+    - [5. Fitting della regressione lineare semplice sul training set](#5-Fitting-della-regressione-lineare-semplice-sul-training-set)
+    - [6. Stima dei risultati sul test set](#6-Stima-dei-risultati-sul-test-set)
+    - [6. Plot dei dati](#6-Plot-dei-dati)
+
 # Regressione Lineare Semplice
 
 $$ y = b_0 + b_1 * x_1$$
