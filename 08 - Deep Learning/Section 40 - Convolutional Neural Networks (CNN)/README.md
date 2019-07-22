@@ -144,3 +144,5 @@ In questo step viene aggiunta una rete neurale artificiale a quello fatto fin'or
 L'hidden layer deve essere *"fully connected"* nelle reti neurali convoluzionali.
 
 Lo scopo della rete neurale è combinare gli input in molti più attributi per fare la classificazione.
+
+**NB**: nelle reti neurali convoluzionali è necessario avere più di un output.
