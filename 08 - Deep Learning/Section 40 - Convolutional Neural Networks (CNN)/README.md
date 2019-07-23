@@ -1,6 +1,6 @@
 # Convolutional Neural Networks
 
-Le reti neurali convoluzionali è una classe del deep learning applicata solitamente nel riconoscimento delle immagini.
+Le reti neurali convoluzionali sono una classe del deep learning applicata solitamente nel riconoscimento delle immagini.
 Sono strati di nodi interconnessi tra di loro, con anche strati in grado di applicare filtri per riconoscere determinate caratteristiche dell'immagine analizzata.
 
 Un'immagine in bianco e nero viene semplificata ad un array bidimensionale di 0 e 1, dove (ad esempio):
