@@ -1,4 +1,4 @@
-# Principal Component Analysin (PCA)
+# Principal Component Analysis (PCA)
 
 E' l'**algoritmo non supervisionato** (non considera le variabili indipendenti) più utilizzato, ed anche il più popolare per **ridurre la dimensionalità** del problema.
 
