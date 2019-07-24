@@ -36,3 +36,9 @@ Capisci se è un problema di classificazione, regressione o clustering
 E' un **problema lineare o non lineare**?
 
 - questo si scopre con **grid search**
+
+---
+
+## XGBoost
+
+XGBoost è l'implementazione più fermormante di **gradient boosting**.
