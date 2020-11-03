@@ -24,7 +24,7 @@ Utilizzi:
 
 ## Scopo di PCA
 
-Lo scopo di PCA è identificare la correlazione tra variabili. Se viene trovata una forte correlazione tra due variabili diventa possibile ridurre la dimensione del problema.
+Lo **scopo di PCA è identificare la correlazione tra variabili**. Se viene trovata una forte correlazione tra due variabili diventa possibile ridurre la dimensione del problema.
 Un problema n-dimensionale viene proiettato in un sotto spazio k-dimensionale.
 
 Step:

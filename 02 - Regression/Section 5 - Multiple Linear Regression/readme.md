@@ -1,16 +1,16 @@
-- [Multiple linear regression](#Multiple-linear-regression)
-  - [Problema](#Problema)
-  - [Dummy variables](#Dummy-variables)
-  - [Come costruire un modello](#Come-costruire-un-modello)
-    - [1. All in](#1-All-in)
-    - [2. Backward elimination](#2-Backward-elimination)
-    - [3. Forward selection](#3-Forward-selection)
-    - [4. Bidirectional elimination](#4-Bidirectional-elimination)
-    - [5. All possible models](#5-All-possible-models)
+- [Multiple linear regression](#multiple-linear-regression)
+  - [Problema](#problema)
+  - [Dummy variables](#dummy-variables)
+  - [Come costruire un modello](#come-costruire-un-modello)
+    - [1. All in](#1-all-in)
+    - [2. Backward elimination](#2-backward-elimination)
+    - [3. Forward selection](#3-forward-selection)
+    - [4. Bidirectional elimination](#4-bidirectional-elimination)
+    - [5. All possible models](#5-all-possible-models)
   - [---](#)
-  - [Backward elimination in Python](#Backward-elimination-in-Python)
-    - [Codice](#Codice)
-    - [Spiegazione](#Spiegazione)
+  - [Backward elimination in Python](#backward-elimination-in-python)
+    - [Codice](#codice)
+    - [Spiegazione](#spiegazione)
 
 # Multiple linear regression
 
@@ -36,7 +36,7 @@ Dato un csv con informazioni su 50 startup, si vuole capire quale chi e perchè 
 
 ![errori indipendenti](img/005.png)
 
-CI sono due possibili caategorie nel colonna State, quindi si usa una Dummy Variable e si continua l'equazione:
+CI sono due possibili categorie nel colonna State, quindi si usa una Dummy Variable e si continua l'equazione:
 
 ![errori indipendenti](img/006.png)
 
